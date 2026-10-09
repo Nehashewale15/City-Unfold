@@ -18,6 +18,10 @@ export default function PlaceDetailModal({ place, onClose, onToggleItinerary, is
           <img 
             src={place.image} 
             alt={place.name} 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80';
+            }}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           <div style={{ 

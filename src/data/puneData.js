@@ -422,7 +422,14 @@ export const SAMPLE_CITY_SIGNALS = [
     source: "Sample IMD / Citizen Doppler Feed",
     description: "Sudden cloudburst active over Sinhagad hills. Heavy runoff making ghat trails slippery. Outdoor treks not recommended for next 3 hours.",
     impact: "Sinhagad Fort, Parvati Hill outdoor walking trails affected.",
-    recommendedAction: "Switch to covered indoor museums like Kelkar Museum or Aga Khan Palace."
+    recommendedAction: "Switch to covered indoor museums like Kelkar Museum or Aga Khan Palace.",
+    confirmations: 42,
+    photo: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=600&auto=format&fit=crop&q=80",
+    voiceNote: {
+      duration: "0:16",
+      speaker: "Citizen Spotter (Katraj Checkpoint)",
+      transcript: "Heavy cloudburst here at Donje phata base. Mud runoff coming onto lower ghat curves. Please avoid Sinhagad ascent by two-wheelers."
+    }
   },
   {
     id: "sig-02",
@@ -434,7 +441,14 @@ export const SAMPLE_CITY_SIGNALS = [
     source: "Sample Pune Traffic Police Alert Feed",
     description: "Water accumulation on right lane causing 25-minute delay from Shivajinagar towards Deccan. Alternate route: Use Metro Line 1 or Law College Road.",
     impact: "Road transit between Shivajinagar & Central Pune slowed.",
-    recommendedAction: "Use Pune Metro Civil Court interchange for faster zero-traffic transit."
+    recommendedAction: "Use Pune Metro Civil Court interchange for faster zero-traffic transit.",
+    confirmations: 29,
+    photo: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&auto=format&fit=crop&q=80",
+    voiceNote: {
+      duration: "0:21",
+      speaker: "Commuter Audio Report",
+      transcript: "Tailback has reached COEP flyover ramp. Vehicles taking 20 mins just to cross Sancheti signal. Take the Civil Court metro if possible."
+    }
   },
   {
     id: "sig-03",
@@ -446,7 +460,10 @@ export const SAMPLE_CITY_SIGNALS = [
     source: "Sample Pune Smart City (PSCDCL) Citizen Advisory",
     description: "Smart footpaths and tactile tiles installation underway. Foot traffic moving smoothly on designated pedestrian paths.",
     impact: "FC Road walking trail remains open and well lit.",
-    recommendedAction: "Street food kiosks fully operational; caution near curb work."
+    recommendedAction: "Street food kiosks fully operational; caution near curb work.",
+    confirmations: 18,
+    photo: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80",
+    voiceNote: null
   },
   {
     id: "sig-04",
@@ -458,7 +475,14 @@ export const SAMPLE_CITY_SIGNALS = [
     source: "Sample Citizen Report #PN-4402",
     description: "Festival preparations and evening shopping rush creating dense pedestrian crowd. Four-wheelers restricted in core market lanes.",
     impact: "Parking near Dagdusheth unavailable; auto/metro drop advised.",
-    recommendedAction: "Prefer walking from Civil Court or Phadke Haud parking lot."
+    recommendedAction: "Prefer walking from Civil Court or Phadke Haud parking lot.",
+    confirmations: 53,
+    photo: null,
+    voiceNote: {
+      duration: "0:14",
+      speaker: "Market Association Marshal",
+      transcript: "Shivaji road pedestrian flow is packed. Best to alight at Civil court metro and walk down 600 meters."
+    }
   },
   {
     id: "sig-05",
@@ -470,7 +494,10 @@ export const SAMPLE_CITY_SIGNALS = [
     source: "Sample Volunteer Heritage Guild",
     description: "Archaeological courtyard cleaned and rainwater channels cleared. Cleanliness index verified at 4.2/5.",
     impact: "Courtyard in pristine condition for visits today.",
-    recommendedAction: "Ideal quiet historical spot to visit."
+    recommendedAction: "Ideal quiet historical spot to visit.",
+    confirmations: 37,
+    photo: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600&auto=format&fit=crop&q=80",
+    voiceNote: null
   }
 ];
 

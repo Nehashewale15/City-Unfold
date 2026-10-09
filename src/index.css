@@ -1395,6 +1395,11 @@ button {
   background: #0f172a !important;
 }
 
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 /* Responsive Media Queries */
 @media (max-width: 900px) {
   .map-layout-wrapper {
@@ -1415,6 +1420,17 @@ button {
     order: 3;
     width: 100%;
     overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .nav-tab-btn {
+    white-space: nowrap;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  .demo-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
 
@@ -1426,6 +1442,21 @@ button {
     padding: 1.5rem 1.25rem;
   }
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
+  }
+  .hero-stats-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .outing-controls-grid {
+    grid-template-columns: 1fr;
+  }
+  .disruption-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+  .tradeoff-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .main-content {
+    padding: 1rem 1rem 3rem;
   }
 }

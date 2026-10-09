@@ -70,13 +70,25 @@ export default function App() {
     } catch (e) {}
   }, [budget, partySize]);
 
+  // Toast Feedback State
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3500);
+  };
+
   // Itinerary Toggle Helper
   const handleToggleItinerary = (place) => {
     const exists = itinerary.some(item => item.id === place.id);
     if (exists) {
       setItinerary(itinerary.filter(item => item.id !== place.id));
+      showToast(`Removed "${place.name}" from itinerary.`);
     } else {
       setItinerary([...itinerary, place]);
+      showToast(`Added "${place.name}" to outing plan!`);
     }
   };
 
@@ -85,23 +97,34 @@ export default function App() {
     const exists = comparedPlaces.some(p => p.id === place.id);
     if (exists) {
       setComparedPlaces(comparedPlaces.filter(p => p.id !== place.id));
+      showToast(`Removed "${place.name}" from comparison.`);
     } else {
       if (comparedPlaces.length >= 4) {
-        alert("You can compare up to 4 places at a time. Remove one first.");
+        showToast("Maximum 4 places can be compared at once. Remove one first.");
         return;
       }
       setComparedPlaces([...comparedPlaces, place]);
+      showToast(`Added "${place.name}" to comparison matrix.`);
     }
   };
 
   const handleAddCompare = (place) => {
-    if (comparedPlaces.length < 4 && !comparedPlaces.some(p => p.id === place.id)) {
+    if (comparedPlaces.length >= 4) {
+      showToast("Maximum 4 places can be compared at once.");
+      return;
+    }
+    if (!comparedPlaces.some(p => p.id === place.id)) {
       setComparedPlaces([...comparedPlaces, place]);
+      showToast(`Added "${place.name}" to comparison.`);
     }
   };
 
   const handleRemoveCompare = (id) => {
+    const place = comparedPlaces.find(p => p.id === id);
     setComparedPlaces(comparedPlaces.filter(p => p.id !== id));
+    if (place) {
+      showToast(`Removed "${place.name}" from comparison.`);
+    }
   };
 
   // Reset to default demo data
@@ -223,6 +246,30 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Non-blocking feedback toast */}
+      {toastMessage && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          background: 'rgba(15, 23, 42, 0.95)',
+          border: '1px solid #6366f1',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.3)',
+          color: '#fff',
+          padding: '0.85rem 1.25rem',
+          borderRadius: '12px',
+          fontSize: '0.86rem',
+          fontWeight: 600,
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.6rem'
+        }}>
+          <span>✨</span>
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </div>
   );
 }

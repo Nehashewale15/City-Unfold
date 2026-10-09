@@ -130,6 +130,10 @@ export default function CompareView({
                     <img 
                       src={place.image} 
                       alt={place.name}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80';
+                      }}
                       style={{ width: '100%', height: '110px', objectFit: 'cover', borderRadius: '8px', marginBottom: '0.5rem' }} 
                     />
                     <div style={{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: 600 }}>{place.category}</div>

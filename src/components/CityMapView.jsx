@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { MapPin, Plus, Check, Eye } from 'lucide-react';
 
 export default function CityMapView({ places, selectedPlace, onSelectPlace, onToggleItinerary, itineraryItems }) {
@@ -101,7 +102,10 @@ export default function CityMapView({ places, selectedPlace, onSelectPlace, onTo
     });
 
     return () => {
-      // Keep map alive or clean on unmount
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
     };
   }, [places]);
 

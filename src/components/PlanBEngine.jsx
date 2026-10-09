@@ -40,37 +40,37 @@ export default function PlanBEngine({
     let timeDeltaDescription = '';
 
     if (activeDisruption === 'sudden-rain') {
-      disruptionSummary = "Monsoon downpour detected. Outdoor attractions present severe slip and mud risks.";
-      timeDeltaDescription = "Eliminates rain delay & provides 100% dry climate-controlled shelter.";
-      
       // Find all outdoor places
       impactedItems = itinerary.filter(p => !p.isIndoor);
       
-      // If no outdoor items, mark first item as sample demonstration
-      if (impactedItems.length === 0 && itinerary.length > 0) {
-        impactedItems = [itinerary[0]];
+      if (impactedItems.length === 0) {
+        disruptionSummary = "Monsoon downpour active. Outstanding planning! All destinations in your outing are already 100% weather-proof indoor venues.";
+        timeDeltaDescription = "Zero rain disruption. Your current itinerary enjoys complete indoor shelter.";
+      } else {
+        disruptionSummary = `Monsoon downpour detected. ${impactedItems.length} outdoor attraction(s) present severe slip, rain, and mud risks.`;
+        timeDeltaDescription = "Eliminates rain hazard & provides 100% dry climate-controlled indoor shelter.";
+
+        // Find best indoor substitutes
+        impactedItems.forEach(impacted => {
+          const candidate = PUNE_PLACES.find(p => 
+            p.isIndoor && 
+            !itinerary.some(item => item.id === p.id) &&
+            !replacements.some(r => r.id === p.id)
+          ) || PUNE_PLACES.find(p => p.id === 'kelkar-museum');
+
+          if (candidate) {
+            const costDiff = (candidate.costPerPerson - impacted.costPerPerson) * partySize;
+            totalSavings += (costDiff < 0 ? Math.abs(costDiff) : -costDiff);
+
+            replacements.push({
+              original: impacted,
+              replacement: candidate,
+              reason: `Replaces outdoor ${impacted.name} with ${candidate.name}: 100% weather-proof indoor halls with high cultural rating (★${candidate.rating}).`,
+              costDiff: costDiff
+            });
+          }
+        });
       }
-
-      // Find best indoor substitutes
-      impactedItems.forEach(impacted => {
-        const candidate = PUNE_PLACES.find(p => 
-          p.isIndoor && 
-          !itinerary.some(item => item.id === p.id) &&
-          !replacements.some(r => r.id === p.id)
-        ) || PUNE_PLACES.find(p => p.id === 'kelkar-museum');
-
-        if (candidate) {
-          const costDiff = (candidate.costPerPerson - impacted.costPerPerson) * partySize;
-          totalSavings += (costDiff < 0 ? Math.abs(costDiff) : -costDiff);
-
-          replacements.push({
-            original: impacted,
-            replacement: candidate,
-            reason: `Replaces outdoor ${impacted.name} with ${candidate.name}: 100% weather-proof indoor halls with high cultural rating (★${candidate.rating}).`,
-            costDiff: costDiff
-          });
-        }
-      });
     } 
     else if (activeDisruption === 'traffic-gridlock') {
       disruptionSummary = "Severe gridlock on outer highways (+45 to 60 mins transit delay).";
@@ -186,7 +186,7 @@ export default function PlanBEngine({
     setItinerary(planBAnalysis.revisedItinerary);
     setAppliedNotice({
       title: "Plan B Applied Successfully!",
-      message: `Your itinerary was updated with ${planBAnalysis.replacements.length} optimized stop(s). You saved approx ${planBAnalysis.costDelta < 0 ? '₹' + Math.abs(planBAnalysis.costDelta) : 'budget balance'}.`
+      message: `Your itinerary was updated with ${planBAnalysis.replacements.length} optimized stop(s). ${planBAnalysis.costDelta < 0 ? `Saved approx ₹${Math.abs(planBAnalysis.costDelta)}` : planBAnalysis.costDelta > 0 ? `Added ₹${planBAnalysis.costDelta}` : 'Budget neutral'}.`
     });
     setActiveDisruption(null);
 

@@ -254,7 +254,15 @@ export default function ExploreView({
             return (
               <div key={place.id} className="place-card">
                 <div className="place-card-image-wrap">
-                  <img src={place.image} alt={place.name} className="place-card-img" />
+                  <img 
+                    src={place.image} 
+                    alt={place.name} 
+                    className="place-card-img" 
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80';
+                    }}
+                  />
                   
                   <div className="place-card-badge-top">
                     <span className="tag-badge">{place.category}</span>
