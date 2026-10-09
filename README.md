@@ -29,30 +29,27 @@ City life is an adventure filled with hidden food spots, historical landmarks, s
   - Travel time & dry shelter trade-offs
   - One-click **"Apply Revised Plan B Outing"** that immediately updates the active itinerary.
 
-### 2. 🗺️ Explore Pune & Interactive Leaflet Map
+### 2. ⭐ Dedicated Hidden Gems Journal ("Not on everyone's list")
+- **Cinematic Editorial Journal**: Introducing lesser-known cultural discoveries, local lore, and detour-worthy secrets.
+- **Curated Sections**:
+  - ⭐ **Worth the Detour**: High-reward gems like Pataleshwar 8th-century subterranean basalt caves and Raja Dinkar Kelkar Museum.
+  - 📜 **Local Stories & Lore**: Archival anecdotes (e.g. Dr. Kelkar's 60-year bullock cart journeys, Sultan Aga Khan's famine relief palace, and Maratha escape tunnels).
+  - 💰 **Under ₹200 / Free to Explore**: Iconic budget Pune staples (Pataleshwar ₹0, Dagdusheth ₹0, Vohuman Cafe ₹130, FC Road ₹180).
+  - ✨ **Unexpected Finds**: Joshi's 26-train automated miniature railway museum, Koregaon Park banyan cafe lanes, and Cantonment vintage burger spots.
+- **Travel Journal Bookmarking**: 1-click bookmarking of favorite discoveries with local storage persistence and a dedicated counter badge.
+
+### 3. 🗺️ Explore Pune & Interactive Leaflet Map
+- **Editorial Discovery Hero**: Headline *"Your city has another side."* with lead featured visual vignette and prominent search console.
 - **15 Curated Pune Hubs**: Shaniwar Wada, Aga Khan Palace, Pataleshwar Caves, FC Road Food Trail, Vohuman Cafe, Sinhagad Fort, Phoenix Marketcity, Koregaon Park Cafe Lane, Joshi's Miniature Railway Museum, Saras Baug, Dagdusheth Ganpati, Camp Burger Walk, Zostel Pune, and JW Marriott.
 - **Search & Multi-Filters**: Instant keyword search, category filters, "Weather-Proof Indoor Only" toggle, and "Budget-Friendly (≤ ₹100)" filter.
-- **Dual Presentation**: Responsive card grid with ratings, safety chip, and accessibility notes + Interactive OpenStreetMap Leaflet integration with color-coded custom markers.
-- **Place Detail Modal**: Deep dive into footfall context, lighting scores, wheelchair/ramp accessibility, and transit directions.
+- **Dual Presentation**: Asymmetrical editorial card grid with verified stamps, why-go highlights, and ratings + Interactive OpenStreetMap Leaflet integration with color-coded custom markers.
+- **Editorial Dossier Modal**: Deep dive into footfall context, lighting scores, wheelchair/ramp accessibility, local lore storytelling, and transit directions.
 
-### 3. ⚖️ Multi-Place Trade-off Matrix (Compare)
-- Compare up to 4 places side-by-side across:
-  - Affordability (Cost/person & price tier)
-  - Rating & Review Depth
-  - Weather Resilience & Rain Safety
-  - Accessibility & Inclusivity
-  - Honest Safety Advisories (Crowd density, lighting, vigilance nuances)
-  - Cleanliness Ratings
-  - Commute Effort (Metro proximity, auto transit times)
+### 4. ⚖️ Multi-Place Trade-off Matrix (Compare)
+- Compare up to 4 places side-by-side across affordability, ratings, weather resilience, accessibility, verified safety nuances, and cleanliness ratings.
 
-### 4. 📢 City Signals & Citizen Reports
-- Live-style feed of Pune urban alerts categorized by severity:
-  - Weather warnings (Monsoon runoff in Western Ghats)
-  - Traffic choke points (Sancheti Hospital Underpass)
-  - Civic works (FC Road pedestrian walkways)
-  - Crowd surges (Budhwar Peth festival rush)
-  - Cleanliness drives (Pataleshwar Courtyard)
-- **Interactive Demo Submission Form**: Judges can submit a simulated citizen observation, which is immediately tagged as demonstration data and added to the live feed.
+### 5. 📢 City Signals & Citizen Reports
+- Live-style feed of Pune urban alerts categorized by severity, with interactive audio voice note playback (animated soundwaves + transcripts), photo lightbox zoom, and citizen verification counters.
 
 ---
 
