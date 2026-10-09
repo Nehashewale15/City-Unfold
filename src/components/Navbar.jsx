@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Compass, MapPin, Sparkles, Scale, BellRing, 
-  Layers, RotateCcw, ArrowRight 
+  Layers, RotateCcw, ArrowRight, Bookmark, Star 
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -10,22 +10,23 @@ export default function Navbar({
   itineraryCount, 
   totalCost, 
   compareCount, 
+  bookmarkedCount = 0,
   onResetAll 
 }) {
   return (
     <header className="navbar">
       <div className="brand-section">
-        <div className="brand-logo" onClick={() => setActiveTab('explore')} style={{ cursor: 'pointer' }}>
+        <div className="brand-logo" onClick={() => setActiveTab('explore')}>
           <div className="brand-icon">
             <Compass size={20} color="#fff" />
           </div>
-          <span>CityShift</span>
+          <span style={{ letterSpacing: '-0.02em' }}>CityShift</span>
         </div>
 
         <div className="city-badge">
           <span className="pulse-dot"></span>
           <span>Pune, MH</span>
-          <span style={{ opacity: 0.6 }}>• Demo Mode</span>
+          <span style={{ opacity: 0.6 }}>• Editorial Beta</span>
         </div>
       </div>
 
@@ -35,15 +36,24 @@ export default function Navbar({
           onClick={() => setActiveTab('explore')}
           className={`nav-tab-btn ${activeTab === 'explore' ? 'active' : ''}`}
         >
-          <Layers size={15} /> Explore & Map
+          <Layers size={14} /> Explore & Map
+        </button>
+
+        <button 
+          onClick={() => setActiveTab('gems')}
+          className={`nav-tab-btn ${activeTab === 'gems' ? 'active hidden-gems-tab' : ''}`}
+          style={{ color: activeTab === 'gems' ? '#fef08a' : undefined }}
+        >
+          <Star size={14} fill={activeTab === 'gems' ? '#f59e0b' : 'none'} color="#f59e0b" />
+          <span>Hidden Gems</span>
         </button>
 
         <button 
           onClick={() => setActiveTab('planb')}
           className={`nav-tab-btn ${activeTab === 'planb' ? 'active' : ''}`}
         >
-          <Sparkles size={15} color={activeTab === 'planb' ? '#fff' : '#818cf8'} />
-          <span>Smart Plan B Engine</span>
+          <Sparkles size={14} color={activeTab === 'planb' ? '#f59e0b' : 'var(--text-muted)'} />
+          <span>Plan B Engine</span>
           {itineraryCount > 0 && (
             <span className="badge-counter">{itineraryCount}</span>
           )}
@@ -53,7 +63,7 @@ export default function Navbar({
           onClick={() => setActiveTab('compare')}
           className={`nav-tab-btn ${activeTab === 'compare' ? 'active' : ''}`}
         >
-          <Scale size={15} />
+          <Scale size={14} />
           <span>Compare</span>
           {compareCount > 0 && (
             <span className="badge-counter">{compareCount}</span>
@@ -64,14 +74,36 @@ export default function Navbar({
           onClick={() => setActiveTab('signals')}
           className={`nav-tab-btn ${activeTab === 'signals' ? 'active' : ''}`}
         >
-          <BellRing size={15} />
+          <BellRing size={14} />
           <span>City Signals</span>
           <span className="badge-counter" style={{ background: 'rgba(239, 68, 68, 0.4)' }}>5</span>
         </button>
       </nav>
 
-      {/* Right Action / Itinerary Quick View */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+      {/* Right Actions: Travel Journal & Itinerary Quick View */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        {bookmarkedCount > 0 && (
+          <button 
+            onClick={() => setActiveTab('gems')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              padding: '0.45rem 0.75rem',
+              borderRadius: 'var(--radius-sm)',
+              background: 'rgba(245, 158, 11, 0.1)',
+              border: '1px solid var(--border-amber-line)',
+              color: '#fde68a',
+              fontSize: '0.78rem',
+              fontWeight: 600
+            }}
+            title="Saved places in Travel Journal"
+          >
+            <Bookmark size={13} fill="#f59e0b" color="#f59e0b" />
+            <span>Journal ({bookmarkedCount})</span>
+          </button>
+        )}
+
         <button 
           onClick={() => setActiveTab('planb')}
           className="nav-cta-btn"
@@ -85,7 +117,7 @@ export default function Navbar({
         <button 
           onClick={onResetAll}
           className="btn-icon-action"
-          title="Reset demo data to factory defaults"
+          title="Reset demo data to defaults"
         >
           <RotateCcw size={15} />
         </button>

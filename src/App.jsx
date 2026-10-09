@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ExploreView from './components/ExploreView';
+import HiddenGemsView from './components/HiddenGemsView';
 import PlanBEngine from './components/PlanBEngine';
 import CompareView from './components/CompareView';
 import CitySignalsView from './components/CitySignalsView';
@@ -9,8 +10,8 @@ import { PUNE_PLACES } from './data/puneData';
 import { AlertCircle, Shield } from 'lucide-react';
 
 export default function App() {
-  // Navigation State
-  const [activeTab, setActiveTab] = useState('explore'); // 'explore' | 'planb' | 'compare' | 'signals'
+  // Navigation State: 'explore' | 'gems' | 'planb' | 'compare' | 'signals'
+  const [activeTab, setActiveTab] = useState('explore');
 
   // Modal State
   const [activeModalPlace, setActiveModalPlace] = useState(null);
@@ -23,7 +24,6 @@ export default function App() {
     } catch (e) {
       console.warn("Could not read localStorage", e);
     }
-    // Default starter itinerary for instant testing
     return [
       PUNE_PLACES.find(p => p.id === 'sinhagad-fort') || PUNE_PLACES[0],
       PUNE_PLACES.find(p => p.id === 'fc-road-food-trail') || PUNE_PLACES[1],
@@ -48,6 +48,15 @@ export default function App() {
     return 2;
   });
 
+  // Bookmarked Places (Travel Journal) with localStorage
+  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cityshift_bookmarks');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return ['pataleshwar-caves', 'vohuman-cafe', 'joshi-railway-museum'];
+  });
+
   // Comparison list
   const [comparedPlaces, setComparedPlaces] = useState(() => {
     return [
@@ -56,7 +65,7 @@ export default function App() {
     ];
   });
 
-  // Save to localStorage
+  // Save states to localStorage
   useEffect(() => {
     try {
       localStorage.setItem('cityshift_itinerary', JSON.stringify(itinerary));
@@ -69,6 +78,12 @@ export default function App() {
       localStorage.setItem('cityshift_partysize', partySize.toString());
     } catch (e) {}
   }, [budget, partySize]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cityshift_bookmarks', JSON.stringify(bookmarkedIds));
+    } catch (e) {}
+  }, [bookmarkedIds]);
 
   // Toast Feedback State
   const [toastMessage, setToastMessage] = useState(null);
@@ -89,6 +104,21 @@ export default function App() {
     } else {
       setItinerary([...itinerary, place]);
       showToast(`Added "${place.name}" to outing plan!`);
+    }
+  };
+
+  // Bookmark Toggle Helper
+  const handleToggleBookmark = (id) => {
+    const exists = bookmarkedIds.includes(id);
+    const place = PUNE_PLACES.find(p => p.id === id);
+    const placeName = place ? place.name : 'Place';
+
+    if (exists) {
+      setBookmarkedIds(bookmarkedIds.filter(item => item !== id));
+      showToast(`Removed "${placeName}" from Travel Journal.`);
+    } else {
+      setBookmarkedIds([...bookmarkedIds, id]);
+      showToast(`Saved "${placeName}" to your Travel Journal!`);
     }
   };
 
@@ -137,11 +167,13 @@ export default function App() {
       ]);
       setBudget(1500);
       setPartySize(2);
+      setBookmarkedIds(['pataleshwar-caves', 'vohuman-cafe', 'joshi-railway-museum']);
       setComparedPlaces([
         PUNE_PLACES.find(p => p.id === 'shaniwar-wada') || PUNE_PLACES[0],
         PUNE_PLACES.find(p => p.id === 'kelkar-museum') || PUNE_PLACES[3]
       ]);
       localStorage.clear();
+      showToast("Session reset to defaults.");
     }
   };
 
@@ -157,6 +189,7 @@ export default function App() {
         itineraryCount={itinerary.length}
         totalCost={totalCost}
         compareCount={comparedPlaces.length}
+        bookmarkedCount={bookmarkedIds.length}
         onResetAll={handleResetAll}
       />
 
@@ -165,10 +198,10 @@ export default function App() {
         {/* Transparent Demo & Hackathon Banner */}
         <div className="demo-banner">
           <div className="demo-banner-content">
-            <span className="demo-tag">Hackathon Simulation</span>
+            <span className="demo-tag">Urban Editorial Beta</span>
             <span>
-              CityShift MVP • Curated sample data for <strong>Pune, Maharashtra</strong>. 
-              Disruptions, weather alerts, and citizen signals are simulated demo records to evaluate the <strong>Smart Plan B Engine</strong>.
+              CityShift • Curated cultural intelligence for <strong>Pune, Maharashtra</strong>. 
+              Disruptions and citizen alerts are simulated demo models to evaluate the <strong>Smart Plan B Engine</strong>.
             </span>
           </div>
           <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
@@ -182,9 +215,24 @@ export default function App() {
             onSelectPlace={(place) => setActiveModalPlace(place)}
             onToggleItinerary={handleToggleItinerary}
             itineraryItems={itinerary}
+            onToggleBookmark={handleToggleBookmark}
+            bookmarkedIds={bookmarkedIds}
             onToggleCompare={handleToggleCompare}
             comparedPlaces={comparedPlaces}
             onGoToPlanB={() => setActiveTab('planb')}
+            onGoToGems={() => setActiveTab('gems')}
+          />
+        )}
+
+        {activeTab === 'gems' && (
+          <HiddenGemsView 
+            onSelectPlace={(place) => setActiveModalPlace(place)}
+            onToggleItinerary={handleToggleItinerary}
+            itineraryItems={itinerary}
+            onToggleBookmark={handleToggleBookmark}
+            bookmarkedIds={bookmarkedIds}
+            onToggleCompare={handleToggleCompare}
+            comparedPlaces={comparedPlaces}
           />
         )}
 
@@ -216,7 +264,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Place Detail Modal */}
+      {/* Place Detail Dossier Modal */}
       {activeModalPlace && (
         <PlaceDetailModal 
           place={activeModalPlace}
@@ -225,6 +273,8 @@ export default function App() {
           isInItinerary={itinerary.some(item => item.id === activeModalPlace.id)}
           onToggleCompare={handleToggleCompare}
           isCompared={comparedPlaces.some(p => p.id === activeModalPlace.id)}
+          onToggleBookmark={handleToggleBookmark}
+          isBookmarked={bookmarkedIds.includes(activeModalPlace.id)}
         />
       )}
 
@@ -232,17 +282,17 @@ export default function App() {
       <footer className="footer">
         <div className="footer-content">
           <div>
-            <div style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.92rem', marginBottom: '0.2rem' }}>
+            <div style={{ fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#f8fafc', fontSize: '1.05rem', marginBottom: '0.2rem' }}>
               CityShift — Explore Freely. Adapt Instantly.
             </div>
             <div>
-              Built for Hackathon 2026 • Pune City Exploration Platform with Autonomous Plan B Engine
+              Urban Editorial × Midnight City Intelligence • Pune Heritage & Resilient Exploration Platform
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            <span>Clean Architecture (React + Vite + Leaflet)</span>
-            <span>Deterministic Recommendation Engine</span>
+            <span>Architecture: React 19 + Vite + Leaflet</span>
+            <span>Deterministic Plan B Engine</span>
           </div>
         </div>
       </footer>
@@ -253,18 +303,19 @@ export default function App() {
           position: 'fixed',
           bottom: '24px',
           right: '24px',
-          background: 'rgba(15, 23, 42, 0.95)',
-          border: '1px solid #6366f1',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.3)',
+          background: 'rgba(12, 18, 29, 0.96)',
+          border: '1px solid var(--accent-amber)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 16px var(--accent-amber-glow)',
           color: '#fff',
-          padding: '0.85rem 1.25rem',
-          borderRadius: '12px',
+          padding: '0.85rem 1.3rem',
+          borderRadius: 'var(--radius-md)',
           fontSize: '0.86rem',
           fontWeight: 600,
           zIndex: 9999,
           display: 'flex',
           alignItems: 'center',
-          gap: '0.6rem'
+          gap: '0.6rem',
+          animation: 'slideUp 0.25s ease'
         }}>
           <span>✨</span>
           <span>{toastMessage}</span>

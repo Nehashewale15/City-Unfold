@@ -202,24 +202,37 @@ export default function PlanBEngine({
 
   return (
     <div className="plan-b-engine-wrapper">
-      {/* Header Banner */}
-      <div className="plan-b-header-card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+      {/* Header Banner — Urban Editorial Adaptive Planning Cockpit */}
+      <div className="plan-b-cockpit-card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.25rem' }}>
           <div>
-            <div className="plan-b-header-title">
-              Smart Plan B Engine 
-              <span className="plan-b-tag">Autonomous Rescheduling</span>
+            <div style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '0.45rem', 
+              color: 'var(--accent-amber)', 
+              fontSize: '0.78rem', 
+              fontWeight: 700, 
+              letterSpacing: '0.1em', 
+              textTransform: 'uppercase', 
+              marginBottom: '0.4rem' 
+            }}>
+              <Sparkles size={14} /> Autonomous Rescheduling Engine
             </div>
-            <p className="plan-b-header-desc">
-              When city chaos strikes (cloudbursts, Pune traffic jams, or budget constraints), 
-              the Plan B Engine automatically re-optimizes your outing with intelligent, vetted alternatives.
+
+            <h1 className="plan-b-hero-headline">
+              Your plans changed. <span>We found another way.</span>
+            </h1>
+
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '780px', fontSize: '0.98rem', lineHeight: '1.6' }}>
+              When city chaos strikes—sudden cloudbursts over the ghats, traffic gridlocks on arterial flyovers, 
+              or budget constraints—Plan B deterministically recalibrates your outing with curated, weather-resilient alternatives.
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button 
               onClick={() => {
-                // Preload a diverse default Pune itinerary if empty
                 setItinerary([
                   PUNE_PLACES.find(p => p.id === 'sinhagad-fort'),
                   PUNE_PLACES.find(p => p.id === 'fc-road-food-trail'),
@@ -227,15 +240,16 @@ export default function PlanBEngine({
                 ]);
               }}
               style={{
-                padding: '0.55rem 1rem',
-                borderRadius: '8px',
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#cbd5e1',
-                fontSize: '0.8rem',
+                padding: '0.6rem 1.15rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'rgba(255, 255, 255, 0.06)',
+                color: '#fde68a',
+                fontSize: '0.82rem',
                 fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.4rem'
+                gap: '0.45rem',
+                border: '1px solid var(--border-amber-line)'
               }}
             >
               <RefreshCw size={14} /> Load Pune Outing Preset
@@ -574,26 +588,49 @@ export default function PlanBEngine({
                   </div>
                 </div>
 
-                {/* Specific Explanations per replacement */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.25rem' }}>
+                {/* Specific Explanations per replacement with Visual Previews */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.4rem' }}>
                   {planBAnalysis.replacements.map((rec, i) => (
                     <div 
                       key={i}
                       style={{
-                        background: 'rgba(15, 23, 42, 0.7)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)',
-                        borderRadius: '8px',
-                        padding: '0.75rem',
-                        fontSize: '0.78rem'
+                        background: 'rgba(12, 18, 29, 0.85)',
+                        border: '1px solid rgba(16, 185, 129, 0.35)',
+                        borderRadius: 'var(--radius-md)',
+                        padding: '0.85rem 1rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem'
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 700, color: '#34d399', marginBottom: '0.2rem' }}>
-                        <span>{rec.original.name}</span>
-                        <ArrowRight size={13} />
-                        <span>{rec.replacement.name}</span>
-                      </div>
-                      <div style={{ color: '#cbd5e1', lineHeight: '1.4' }}>
-                        {rec.reason}
+                      <img 
+                        src={rec.replacement.image} 
+                        alt={rec.replacement.name} 
+                        style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-sm)', objectFit: 'cover', flexShrink: 0 }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&auto=format&fit=crop&q=80';
+                        }}
+                      />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontWeight: 700, color: '#34d399', fontSize: '0.85rem', marginBottom: '0.2rem' }}>
+                          <span style={{ textDecoration: 'line-through', opacity: 0.7, color: 'var(--text-muted)' }}>{rec.original.name}</span>
+                          <ArrowRight size={13} />
+                          <span>{rec.replacement.name}</span>
+                          <span style={{ 
+                            fontSize: '0.68rem', 
+                            background: 'rgba(16, 185, 129, 0.15)', 
+                            color: '#6ee7b7', 
+                            padding: '0.15rem 0.45rem', 
+                            borderRadius: '4px',
+                            marginLeft: 'auto' 
+                          }}>
+                            {rec.costDiff <= 0 ? `Saves ₹${Math.abs(rec.costDiff)}` : `+₹${rec.costDiff}`}
+                          </span>
+                        </div>
+                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', lineHeight: '1.45' }}>
+                          {rec.reason}
+                        </div>
                       </div>
                     </div>
                   ))}
